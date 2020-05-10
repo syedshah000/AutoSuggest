@@ -2,7 +2,9 @@ package com.elasticsearch.ElasticIntergration.service;
 
 import java.io.Serializable;
 
+
 public class ResponsePojo implements Serializable {
+
     public int getTook() {
         return took;
     }
@@ -32,6 +34,20 @@ public class ResponsePojo implements Serializable {
     String var;
 
 
+    public Object getProduct_title() {
+        return product_title;
+    }
+
+    public void setProduct_title(Object product_title) {
+        this.product_title = product_title;
+    }
+
+    Object product_title;
+
+
+
+    public Object suggest;
+
     public Object getSuggest() {
         return suggest;
     }
@@ -40,26 +56,15 @@ public class ResponsePojo implements Serializable {
         this.suggest = suggest;
     }
 
-    public Object suggest;
+
+
+
 
 }
 /*
         "took" : 2,
         "timed_out" : false,
-        "_shards" : {
-        "total" : 1,
-        "successful" : 1,
-        "skipped" : 0,
-        "failed" : 0
-        },
-        "hits" : {
-        "total" : {
-        "value" : 0,
-        "relation" : "eq"
-        },
-        "max_score" : null,
-        "hits" : [ ]
-        },
+
         "suggest" : {
         "product-suggest" : [
         {
