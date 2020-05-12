@@ -2,8 +2,37 @@ package com.elasticsearch.ElasticIntergration.service;
 
 import java.io.Serializable;
 
-
 public class ResponsePojo implements Serializable {
+
+
+    public String suggest;
+    int took;
+    boolean timed_out;
+    String var;
+
+    public String getSuggest() {
+        return suggest;
+    }
+
+    public void setSuggest(String suggest) {
+        this.suggest = suggest;
+    }
+
+
+    public ResponsePojo(String var, String responseBody) {
+        this.var = var;
+        this.suggest = responseBody;
+
+    }
+
+
+    public ResponsePojo(String var) {
+        this.var = var;
+
+    }
+
+
+
 
     public int getTook() {
         return took;
@@ -29,49 +58,5 @@ public class ResponsePojo implements Serializable {
         this.var = var;
     }
 
-    int took;
-    boolean timed_out;
-    String var;
-
-
-    public Object getProduct_title() {
-        return product_title;
-    }
-
-    public void setProduct_title(Object product_title) {
-        this.product_title = product_title;
-    }
-
-    Object product_title;
-
-
-
-    public Object suggest;
-
-    public Object getSuggest() {
-        return suggest;
-    }
-
-    public void setSuggest(Object suggest) {
-        this.suggest = suggest;
-    }
-
-
-
-
 
 }
-/*
-        "took" : 2,
-        "timed_out" : false,
-
-        "suggest" : {
-        "product-suggest" : [
-        {
-        "text" : "w",
-        "offset" : 0,
-        "length" : 1,
-        "options" : [
-        {
-        "text" : "Whistlez Jolly Jam",
-        "_index" : "library_item",*/

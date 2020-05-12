@@ -1,25 +1,25 @@
 package com.elasticsearch.ElasticIntergration.service;
 
-import org.json.JSONException;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
-import org.json.JSONObject;
-import org.json.JSONArray;
-
 
 
 public class elasticService {
 
-    public Object searchEL(String str,String var) throws JSONException {
+    String URL = "http://localhost:9200/library_item/_search";
 
-        String request ="\n" +
+    // Method to Execute GET request from elasticSearch Cluster
+    public String searchEL(String search_val, String keyCount) {
+
+        // Adding the search value from the controller(search_val) into our Elastic Query
+        String query ="\n" +
                 "{\"stored_fields\" : [],\n" +
                 "    \"suggest\": {\n" +
                 "        \"product-suggest\" : {\n" +
-                "            \"prefix\" : \"" + str + "\",\n" +
+                "            \"prefix\" : \"" + search_val + "\",\n" +
                 "\n" +
                 "            \"completion\" : { \n" +
                 "                \"field\" : \"lang_en\",\n" +
@@ -31,35 +31,27 @@ public class elasticService {
                 "    }\n" +
                 "}";
 
-        String URL = "http://localhost:9200/library_item/_search?pretty";
+        //  Creating a header and assigning the response type to JSON, Setting the authorization using APIKey generated from elasticsearch
+        //  Elastic search is not preemptive and requires the auth at every transaction
 
-        HttpHeaders headers = new HttpHeaders();
+        HttpHeaders headers =  new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+       // headers.set("Authorization",authHeader);
 
-        HttpEntity<String> req = new HttpEntity<String>(request, headers);
 
+        //  Joining the request body and header to be used in the restTemplate
+        HttpEntity<String> request = new HttpEntity<String>(query, headers);
         RestTemplate restTemplate = new RestTemplate();
 
 
-        ResponseEntity<ResponsePojo> response = restTemplate.postForEntity(URL,req,ResponsePojo.class);
-        ResponsePojo res = response.getBody();
-        res.setVar(var);
+        //  Executing the POST method and storing the response in a List<String>
+        ResponseEntity<String> response = restTemplate.postForEntity(URL,request,String.class);
+        String  res = response.getBody();
+//
+//        ResponseEntity<String> response = restTemplate.postForEntity(URL,request,String.class);
+//        ResponsePojo res = new ResponsePojo(keyCount, response.getBody());
 
-        System.out.println(res.getSuggest());
-        /*
-        JSONObject obj = new JSONObject(res.getSuggest());
-
-        try{
-
-            Object p_title = obj.getJSONObject("product_suggest").getString("text");
-            res.setProduct_title(p_title);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }*/
-
-
-
-        return response;
+        return res;
 
     }
 

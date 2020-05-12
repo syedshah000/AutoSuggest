@@ -1,12 +1,7 @@
 package com.elasticsearch.ElasticIntergration;
 
 import com.elasticsearch.ElasticIntergration.service.elasticService;
-import org.json.JSONException;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
@@ -23,21 +18,12 @@ public class elasticController {
     }
 
 
-    @RequestMapping("/syed")
-    public String ss(){
-
-        syed sense = new syed();
-        return sense.getSyed();
-
-    }
-
+    @CrossOrigin(origins = "*")
     @GetMapping("/search")
-    public Object ss(@RequestParam("str") String str,@RequestParam("var") String var) throws JSONException {
-        System.out.println(" Reached here ");
+    public String search(@RequestParam("str") String str, @RequestParam("var") String var) {
+
         elasticService objSer = new elasticService();
         return objSer.searchEL(str,var);
-        // http://localhost:8080/search?str= &var=ß2
-
     }
 
     }
